@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Coronavirus Tracker Test app</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" 
+    	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+    	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+    	crossorigin="anonymous">
+</head>
+
+<body >
+	<div class="container">
+		<div class="jumbotron">
+		  <h1 class="display-4">Coronavirus Tracker</h1>
+		  <p class="lead">Testowa aplikacja do śledzenia ilości zarażonych osób na koronawirusa.</p>
+		  <p class="lead"> Suma wszystkch zarażonych: <span th:text="${totalStats}"></span></p>
+		  <p class="lead"> Suma nowych zarażonych: <span th:text="${totalNew}"></span></p>
+		  <hr class="my-4">
+		  <p>Dane pobierane z CSSE Johns Hopkins University.</p>
+		  <a class="btn btn-primary btn-lg" href="https://github.com/CSSEGISandData/COVID-19" role="button">Źródło</a>
+		</div>		
+		<table class="table table-dark">
+		
+			<tr>
+				<th scope="col">Państwo</th>
+				<th scope="col">Dzielnica</th>
+				<th scope="col">Total</th>
+				<th scope="col">Nowe przypadki</th>
+			</tr>
+			<tr th:each="stat: ${coronaStats}">
+				<td th:text="${stat.country}"></td>
+				<td th:text="${stat.province}"></td>
+				<td th:text="${stat.latestTotalCases}">0</td>
+				<td th:text="${stat.lastDayDiffrent}">0</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

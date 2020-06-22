@@ -1,2 +1,4 @@
 # coronavirus-trucker
-Test app
+Przykladowa aplikacja w Spring Boot do śledzenia ilości osób zarażonych koronawirusem.
+
+Nic nadzwyczajnego :)

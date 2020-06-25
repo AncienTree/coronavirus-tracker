@@ -16,27 +16,29 @@
 		<div class="jumbotron">
 		  <h1 class="display-4">Coronavirus Tracker</h1>
 		  <p class="lead">Testowa aplikacja do śledzenia ilości zarażonych osób na koronawirusa.</p>
-		  <p class="lead"> Suma wszystkch zarażonych: <span th:text="${totalStats}"></span></p>
-		  <p class="lead"> Suma nowych zarażonych: <span th:text="${totalNew}"></span></p>
+		  <div class="lead">
+		  	<h3>Suma ogólna:</h3>
+		  	<div>
+		  		Zarażonych: <b><span th:text="${#numbers.formatInteger(totalConfCases, 3,'DEFAULT')}"></span></b>,  
+		  		Zmarłych: <b><span th:text="${#numbers.formatInteger(totalDeathCases, 3,'DEFAULT')}"></span></b>, 
+		  		Wyleczonych: <b><span th:text="${#numbers.formatInteger(totalRecovCases, 3,'DEFAULT')}"></span></b>
+		  	</div>
+		  	<p><h3>Suma nowych przypadków:</h3></p>	  
+		  	<div>
+		  		Zarażonych: <b><span th:text="${#numbers.formatInteger(totalConfNewCases, 3,'DEFAULT')}"></span></b>,  
+		  		Zmarłych: <b><span th:text="${#numbers.formatInteger(totalDeathNewCases, 3,'DEFAULT')}"></span></b>, 
+		  		Wyleczonych: <b><span th:text="${#numbers.formatInteger(totalRecovNewCases, 3,'DEFAULT')}"></span></b>
+		  	</div>
 		  <hr class="my-4">
 		  <p>Dane pobierane z CSSE Johns Hopkins University.</p>
 		  <a class="btn btn-primary btn-lg" href="https://github.com/CSSEGISandData/COVID-19" role="button">Źródło</a>
-		</div>		
-		<table class="table table-dark">
-		
-			<tr>
-				<th scope="col">Państwo</th>
-				<th scope="col">Dzielnica</th>
-				<th scope="col">Total</th>
-				<th scope="col">Nowe przypadki</th>
-			</tr>
-			<tr th:each="stat: ${coronaStats}">
-				<td th:text="${stat.country}"></td>
-				<td th:text="${stat.province}"></td>
-				<td th:text="${stat.latestTotalCases}">0</td>
-				<td th:text="${stat.lastDayDiffrent}">0</td>
-			</tr>
-		</table>
-	</div>
+		  <div>
+			Przejdź do tabeli:
+				<a class="btn btn-primary btn-lg" href="/conf" role="button">Zarażeni</a>
+				<a class="btn btn-primary btn-lg" href="/death" role="button">Zmarli</a>
+				<a class="btn btn-primary btn-lg" href="/recov" role="button">Wyleczeni</a>
+		  </div>
+		</div>	
+	</div>	
 </body>
 </html>

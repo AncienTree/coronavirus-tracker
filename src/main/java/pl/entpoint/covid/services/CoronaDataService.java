@@ -27,22 +27,45 @@ import pl.entpoint.covid.model.Corona;
 @Service
 public class CoronaDataService {
 	
-	private static final String DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
+	private static final String DATA_CONF_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
+	private static final String DATA_DEATH_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
+	private static final String DATA_RECOV_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
 	
-	private List<Corona> locationsStats = new ArrayList<>();
+	private List<Corona> confSats = new ArrayList<>();
+	private List<Corona> deathSats = new ArrayList<>();
+	private List<Corona> recovSats = new ArrayList<>();
 	
-	public List<Corona> getLocationsStats() {
-		return locationsStats;
+	public List<Corona> getConfSats() {
+		return confSats;
 	}
 	
+	
+	public List<Corona> getDeathSats() {
+		return deathSats;
+	}
+
+	public List<Corona> getRecovSats() {
+		return recovSats;
+	}
+
 	@PostConstruct
 	@Scheduled(cron = "0 */12 * * * *") // At minute 0 past every 12th hour.
-	public void fechtData() throws IOException, InterruptedException {
+	public void fechtData() {
+		try {
+			this.confSats = updateData(DATA_CONF_URL);
+			this.deathSats = updateData(DATA_DEATH_URL);
+			this.recovSats = updateData(DATA_RECOV_URL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Corona> updateData(String URL) throws IOException, InterruptedException {
 		List<Corona> newStats = new ArrayList<>();
 
 		HttpClient httpClient = HttpClient.newHttpClient();
 		HttpRequest httpRequest = HttpRequest.newBuilder()
-			.uri(URI.create(DATA_URL))
+			.uri(URI.create(URL))
 			.build();
 		
 		HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
@@ -66,6 +89,6 @@ public class CoronaDataService {
 			
 			newStats.add(locationStats);
 		}		
-		this.locationsStats = newStats;		
+		return newStats;		
 	}
 }
